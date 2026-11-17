@@ -16,7 +16,7 @@ export const AL_PACINO_LINES=Object.freeze([
 ]);
 
 // A separate, movable story actor. Local +Z is forward; his starting pose faces
-// down the gallery from the left side of Misti Ogle's painting.
+// down the gallery from the left side of Misty Ogle's painting.
 export function buildBeverlyGuests(T,root,groups,materials){
  const group=new T.Group();group.name='Gallery_guests';group.userData.dynamic=true;
  root.add(group);groups.Gallery_guests=group;

@@ -6,4 +6,4 @@ You can also serve this entire folder on a static HTTP server. The game needs We
 
 W/S: move. A/D: turn. Shift: run. Drag: look. E: hold or release Stubby. Space: advance dialogue. Esc: pause.
 
-Music: Mimesis. Painting: Misti Ogle. Third-party licenses and audio credits are in vendor/ and assets/.
+Music: Mimesis. Paintings: Misty Ogle. Third-party licenses and audio credits are in vendor/ and assets/.

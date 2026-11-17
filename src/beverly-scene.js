@@ -2,7 +2,7 @@ import * as T from '../vendor/three.module.js';
 import {OrbitControls} from '../vendor/OrbitControls.js';
 import {mergeGeometries} from '../vendor/BufferGeometryUtils.js';
 import {buildBeverlyEstate} from './beverly-model.js';
-import {PARTY_KNIGHT_ART} from './beverly-artwork.js';
+import {PARTY_KNIGHT_ART,WORDS_LOSE_ART} from './beverly-artwork.js';
 import {MIMESIS_LOGO} from './beverly-performance.js';
 import {createBeverlyNavigation} from './beverly-navigation.js';
 import {createBeverlyPlayer} from './beverly-player.js';
@@ -22,10 +22,10 @@ const renderer=new T.WebGLRenderer({canvas,antialias:true});renderer.setPixelRat
 const scene=new T.Scene();scene.background=new T.Color(0x111e32);scene.fog=new T.Fog(0x111e32,260,600);
 const camera=new T.PerspectiveCamera(47,1,.08,500),controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.dampingFactor=.07;controls.minDistance=.3;controls.maxDistance=250;controls.maxPolarAngle=Math.PI*.49;
 const hemi=new T.HemisphereLight(0xe3edff,0x665844,.31);scene.add(hemi);const moon=new T.DirectionalLight(0x9eafff,.36);moon.position.set(35,75,-35);moon.castShadow=true;moon.shadow.mapSize.set(2048,2048);Object.assign(moon.shadow.camera,{left:-90,right:90,top:85,bottom:-85,near:1,far:220});moon.shadow.normalBias=.06;moon.shadow.bias=-.00012;scene.add(moon);scene.add(moon.target);
-const [paintingTexture,logoTexture]=await Promise.all([PARTY_KNIGHT_ART.image,MIMESIS_LOGO.image].map(path=>new T.TextureLoader().loadAsync(new URL(path,import.meta.url).href)));
-for(const texture of [paintingTexture,logoTexture])texture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+const [paintingTexture,logoTexture,hallPaintingTexture]=await Promise.all([PARTY_KNIGHT_ART.image,MIMESIS_LOGO.image,WORDS_LOSE_ART.image].map(path=>new T.TextureLoader().loadAsync(new URL(path,import.meta.url).href)));
+for(const texture of [paintingTexture,logoTexture,hallPaintingTexture])texture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
 await onLoadStage?.('Building the estate…');
-const model=buildBeverlyEstate(T,{paintingTexture,logoTexture});
+const model=buildBeverlyEstate(T,{paintingTexture,logoTexture,hallPaintingTexture});
 // World-projected grain, joints and relief for the flat-colour estate materials.
 applyEstateSurfaces(T,model.materials,{anisotropy:Math.min(4,renderer.capabilities.getMaxAnisotropy())});
 const {root,groups,materials,maze,gate,effects,gardenWater,patioFountain,churroTent,partyBus,passengers,performance,guests,story,filmCrew,drivewayCameraman,patioBubbles}=model;

@@ -5,7 +5,7 @@ import {buildChurroTent} from './beverly-churros.js';
 import {buildPatioFountain} from './beverly-fountain.js';
 import {buildPartyBus} from './beverly-bus.js';
 import {buildBeverlyPassengers} from './beverly-passengers.js';
-import {buildGalleryArtwork} from './beverly-artwork.js';
+import {buildGalleryArtwork,WORDS_LOSE_ART} from './beverly-artwork.js';
 import {buildPatioPerformance} from './beverly-performance.js';
 import {buildBeverlyGuests} from './beverly-guests.js';
 import {buildBeverlyFilmCrew} from './beverly-film-crew.js';
@@ -19,7 +19,7 @@ import {buildBeverlyStubby} from './beverly-stubby.js';
 
 // Editable, deterministic first-pass geometry. Trace footprints from USER-04;
 // elevations and ornamental profiles are estimates checked against photographs.
-export function buildBeverlyEstate(T,{paintingTexture=null,logoTexture=null}={}){
+export function buildBeverlyEstate(T,{paintingTexture=null,logoTexture=null,hallPaintingTexture=null}={}){
  const root=new T.Group();root.name='Beverly Estate — architectural study 08';
  root.userData={stage:'Architectural blockout, not a measured reconstruction',units:'metres',plan:'USER-04',scaleAnchor:'Pool horizontal dimension 74 feet 9 inches',elevations:'Photo-guided estimates',scope:'House, terrain, party guests and three playable story scenes including the fountain finale'};
  const groups={};for(const name of ['Terrain','Driveway','Ground_floor','Upper_floors_and_roofs','Terraces','Pool_and_cascades','Pavilions','Planting','Lamps']){const g=new T.Group();g.name=name;root.add(g);groups[name]=g;}
@@ -396,6 +396,7 @@ export function buildBeverlyEstate(T,{paintingTexture=null,logoTexture=null}={})
  const partyBus=buildPartyBus(T,root,groups,mats);
  const passengers=buildBeverlyPassengers(T,root,groups,mats,partyBus);
  const artwork=buildGalleryArtwork(T,root,groups,mats,paintingTexture);
+ const hallArtwork=buildGalleryArtwork(T,root,groups,mats,hallPaintingTexture,WORDS_LOSE_ART);
  const performance=buildPatioPerformance(T,root,groups,mats,logoTexture);
  const guests=buildBeverlyGuests(T,root,groups,mats);
  const stubby=buildBeverlyStubby(T,root,groups,mats);
@@ -409,5 +410,5 @@ export function buildBeverlyEstate(T,{paintingTexture=null,logoTexture=null}={})
  root.userData.driveway='USER-07 registered to USER-04; hidden bends and elevations estimated';
  root.userData.fireplaceRoom='USER-08 purple annotation: plan rectangle 770,740 to 900,817';
  root.userData.navigation='Walk boundaries and obstacle probes in src/beverly-navigation.js; not embedded physics';
- return {root,groups,materials:mats,maze,stubby,gardenWater,patioFountain,churroTent,partyBus,passengers,artwork,performance,guests,story,drowningRemains,filmCrew,drivewayCameraman,patioBubbles,drivewayPaint,...setPieces,animations:[...setPieces.animations,...partyBus.animations]};
+ return {root,groups,materials:mats,maze,stubby,gardenWater,patioFountain,churroTent,partyBus,passengers,artwork,hallArtwork,performance,guests,story,drowningRemains,filmCrew,drivewayCameraman,patioBubbles,drivewayPaint,...setPieces,animations:[...setPieces.animations,...partyBus.animations]};
 }
