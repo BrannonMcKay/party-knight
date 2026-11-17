@@ -43,7 +43,7 @@ export const ARRIVAL_WALL=[[310,754],[90,750],[55,620],[65,490],[165,447],[395,4
 export const FUTURE_BUS_BAY={u1:130,u2:245,v1:515,v2:700,y:8,status:'Billy Knight coach parking and ten-passenger unloading'};
 // The estate's long routes use a 50% faster pace than the original board tuning.
 export const ESTATE_MOVEMENT={walk:4.5,run:7.95};
-export const PARTY_BUS={length:11.8,width:2.55,height:3.65,delay:10,speedMultiplier:1.5,parkingSpeed:2.1,park:[185,603,8]};
+export const PARTY_BUS={length:11.8,width:2.55,height:3.65,delay:10,speedMultiplier:1.5,parkingSpeed:5.5,park:[185,603,8]};
 export const GATE_PROGRESS=.055;
 export const GATE_OPEN_SECONDS=2.8;
 export function darkRoomHeight(u,v){

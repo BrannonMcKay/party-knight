@@ -2,7 +2,16 @@
 *{box-sizing:border-box}body{margin:0}main{position:relative;height:100dvh;overflow:hidden}button{font:inherit;color:inherit;background:#282434;border:1px solid #988ba0;border-radius:.5rem;padding:.55em 1em;cursor:pointer}button:hover{border-color:#ffe9c2}button:focus-visible,input:focus-visible{outline:3px solid #a7eaff;outline-offset:4px}button:disabled{opacity:.65;cursor:wait}[hidden]{display:none!important}
 #estate{width:100%;height:100%;display:block;touch-action:none;outline:none}#menu{position:absolute;inset:0;display:grid;align-items:center;overflow:auto;padding:clamp(1rem,5vw,5rem);background:linear-gradient(90deg,#171322f5,#191323a6 55%,#13142540)}
 article{max-width:35rem}small,footer{letter-spacing:.15em;text-transform:uppercase;font-size:.72rem;color:#edc18e}h1{font:clamp(3rem,9vw,7rem)/.95 Georgia,serif;letter-spacing:-.06em;margin:.18em 0 .28em;text-shadow:0 3px 18px #150c18}#invitation{max-width:27em;color:#f4ddc8}#enter{background:#ffcb96;border-color:#ffd7ae;color:#2c1b24;font-weight:700;margin:.5em .5em .5em 0;padding:.75em 1.6em}.keys,.mix,footer,#notice{font-size:.8rem}.keys{line-height:2;color:#ded6e6}kbd{font:inherit;color:#fff3de;border:1px solid #807787;border-radius:.25rem;padding:.1em .35em}.mix{display:flex;gap:1.4rem;margin:1.4em 0}.mix input{accent-color:#ffd08d}footer{opacity:.85}#notice:empty{display:none}
-#hud{position:absolute;inset:1rem 1rem auto;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;pointer-events:none}#hud>div,#pause{background:#151224db;border:1px solid #ffffff35;border-radius:.45rem;padding:.55rem .85rem}#hud p{margin:0;font-size:.85rem}#alert{color:#ffdeb1}#pause,#touch{pointer-events:auto}#touch{display:none;position:absolute;inset:auto 1rem 1rem;gap:.35rem;flex-wrap:wrap}#touch button{touch-action:none;user-select:none}
+#hud{position:absolute;inset:1rem 1rem auto;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;pointer-events:none}#hud>div,#pause{background:#151224db;border:1px solid #ffffff35;border-radius:.45rem;padding:.55rem .85rem}#hud p{margin:0;font-size:.85rem}#alert{color:#ffdeb1}#pause,#touch{pointer-events:auto}#touch{display:none;position:absolute;inset:auto 1rem 1rem;justify-content:space-between;align-items:flex-end;pointer-events:none}
+#touch *{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+/* Left thumb: a stick that walks and turns. Right thumb: Run and Action, or drag the picture to look. */
+#stick{pointer-events:auto;width:7.5rem;height:7.5rem;border-radius:50%;display:grid;place-items:center;background:#15122488;border:1px solid #ffffff50}
+#stick i{width:3.2rem;height:3.2rem;border-radius:50%;background:#ffcb96d9;box-shadow:0 2px 10px #0008;pointer-events:none}
+.touch-buttons{pointer-events:auto;display:flex;flex-direction:column;align-items:stretch;gap:.6rem}
+.touch-buttons button{min-width:5.8rem;min-height:3.3rem;border-radius:1.65rem;background:#151224cc;border-color:#ffffff50}
+.touch-buttons #action{background:#ffcb96;border-color:#ffd7ae;color:#2c1b24;font-weight:700}
+.touch-keys,#rotate{display:none}.touch-keys b{color:#fff3de;font-weight:600}
+#rotate{font-size:.85rem;color:#ffe0bc;margin:.6em 0 0}
 #loading{width:min(19rem,100%);padding:.75rem 0;margin:.5rem 0}
 .loading-caption{display:flex;align-items:center;justify-content:space-between;gap:1rem;font-size:.88rem;color:#ffe0bc}
 #loading-stage::before{content:"";display:inline-block;vertical-align:.06em;width:.45em;height:.45em;border-radius:50%;margin-right:.55em;background:#ffc58a;animation:lamp-glow 1.4s ease-in-out infinite alternate}
@@ -11,9 +20,12 @@ article{max-width:35rem}small,footer{letter-spacing:.15em;text-transform:upperca
 #loading-step{color:#d2bfce;font-variant-numeric:tabular-nums;white-space:nowrap}
 #loading-progress{display:block;width:100%;height:.4rem;margin-top:.5rem;accent-color:#ffcb96}
 body:not([data-mode="playing"]) .character-speech{display:none!important}
-@media(pointer:coarse){body[data-mode="playing"] #touch{display:flex}}
-@media(max-height:500px){#menu{padding:.8rem 2rem}h1{font-size:3rem}.keys,.mix{margin:.4rem 0}}
+@media(pointer:coarse){body[data-mode="playing"] #touch{display:flex}.keys:not(.touch-keys){display:none}.touch-keys{display:block}}
+@media(pointer:coarse) and (orientation:portrait){#rotate{display:block}}
+@media(max-height:500px){#menu{padding:.6rem 2rem}h1{font-size:2.4rem;margin:.1em 0 .2em}#invitation{margin:.3em 0;font-size:.9rem}.keys{line-height:1.7}.keys,.mix{margin:.3rem 0}#enter{margin:.2em .5em .2em 0;padding:.55em 1.4em}#stick{width:6.5rem;height:6.5rem}.touch-buttons button{min-height:2.9rem}}
 #lag-hint{position:absolute;left:50%;bottom:1.2rem;transform:translateX(-50%);display:flex;align-items:center;gap:.6rem;max-width:min(44rem,calc(100% - 2rem));padding:.55rem .6rem .55rem 1rem;background:#151224eb;border:1px solid #ffcb9688;border-radius:.6rem;font-size:.9rem;color:#ffe9c9;z-index:12}
 #lag-hint button{flex:none;padding:.3em .8em;font-size:.82rem}#lag-hint span{margin-right:.3rem}
 body:not([data-mode="playing"]) #lag-hint{display:none}
-@media(pointer:coarse){#lag-hint{bottom:auto;top:4.6rem}}
+/* Touch: clear of the stick and buttons. Upright there is no room between them, so it sits under the HUD. */
+@media(pointer:coarse){#lag-hint{max-width:calc(100% - 17rem);font-size:.8rem}}
+@media(pointer:coarse) and (orientation:portrait){#lag-hint{bottom:auto;top:5.6rem;max-width:calc(100% - 2rem)}}

@@ -4,7 +4,7 @@ import {world,DRIVE,nearPolyline,plan,PATIO_FOUNTAIN} from './beverly-layout.js'
 import {BUS_DOOR} from './beverly-bus.js';
 import {EXTRA_PASSENGERS,PATIO_PARTY_LOOP,createPartyGuestFactory,makePartyWander,buildPoolParty} from './beverly-party-crowd.js';
 
-export const PASSENGER_TIMING={first:BUS_DOOR.delay+BUS_DOOR.duration+.15,spacing:1,exitSpeed:.72,pranceSpeed:1.75,waddleSpeed:1.05,guestSpeed:1.35,barService:2.3,pause:1.4};
+export const PASSENGER_TIMING={first:BUS_DOOR.delay+BUS_DOOR.duration+.15,spacing:.75,exitSpeed:1.1,pranceSpeed:1.75,waddleSpeed:1.05,guestSpeed:1.7,barService:2.3,pause:1.4};
 
 // The two authored leads are followed by eight ordinary party guests.
 export function buildBeverlyPassengers(T,root,groups,materials,bus){

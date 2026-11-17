@@ -1,4 +1,4 @@
-import {GameAudio, MUSIC_ASSET, MUSIC_CREDIT} from './audio.js';
+import {GameAudio} from './audio.js';
 import {partyLampCueAt} from './beverly-lamp-cues.js';
 import {renderRecordScratch,RECORD_SCRATCH} from './record-scratch.js';
 
@@ -12,7 +12,16 @@ const knightFalls = {
   file: new URL('../assets/knight-falls-instrumental.mp3', import.meta.url).href,
   name: 'Knight Falls', credit: 'Mimesis · Knight Falls (Instrumental)'
 };
-const taciturn = {file: MUSIC_ASSET, name: 'Taciturn Eternity', credit: MUSIC_CREDIT};
+const dreamLight = {
+  file: new URL('../assets/dream-light-2025.mp3', import.meta.url).href,
+  name: 'Dream Light', credit: 'Mimesis · Dream Light'
+};
+const celloInterlude = {
+  file: new URL('../assets/party-knight-cello-interlude.mp3', import.meta.url).href,
+  name: 'Cello Interlude', credit: 'Mimesis · Cello Interlude'
+};
+// What follows each recording when it runs out. Nothing follows the interlude.
+const NEXT_TRACK = new Map([[PARTY_KNIGHT_TRACK, knightFalls], [knightFalls, dreamLight], [dreamLight, celloInterlude]]);
 
 export class PartyKnightAudio extends GameAudio {
   constructor(options) {
@@ -46,7 +55,7 @@ export class PartyKnightAudio extends GameAudio {
     this.musicStatus = 'Ready · original Mimesis recording';
     if (track === PARTY_KNIGHT_TRACK) {
       this.musicRoundDuration = buffer.duration;
-      for (const next of [knightFalls, taciturn]) {
+      for (const next of [knightFalls, dreamLight, celloInterlude]) {
         this.prepareTrack(next).catch(error => console.warn(next.name+' could not preload.', error));
       }
     }
@@ -74,11 +83,12 @@ export class PartyKnightAudio extends GameAudio {
   }
 
   onMusicEnded() {
-    if (this.track === PARTY_KNIGHT_TRACK && this.view !== 'home') return this.switchTrack(knightFalls);
+    const next = NEXT_TRACK.get(this.track);
+    if (next && this.view !== 'home') return this.switchTrack(next);
   }
 
   // The party song is ripped off the turntable: a needle-drag scratch as it
-  // stops, then Taciturn Eternity starts once the scratch is over.
+  // stops, then Dream Light starts once the scratch is over.
   playRecordScratch() {
     const c = this.context;
     if (!this.musicSource || !c || typeof c.createBuffer !== 'function') return null;
@@ -91,11 +101,13 @@ export class PartyKnightAudio extends GameAudio {
   }
 
   startEscapeMusic() {
-    if (this.track !== taciturn && this.playRecordScratch()) {
+    // Dream Light may already be playing because Knight Falls ran out: leave it be.
+    if (this.track === dreamLight) return Promise.resolve();
+    if (this.playRecordScratch()) {
       this.scratchUntil = this.context.currentTime + RECORD_SCRATCH.seconds;
       globalThis.setTimeout?.(() => this.syncMusic(), RECORD_SCRATCH.seconds * 1000 + 20);
     }
-    return this.switchTrack(taciturn);
+    return this.switchTrack(dreamLight);
   }
 
   syncMusic() {

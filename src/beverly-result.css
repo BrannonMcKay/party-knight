@@ -57,3 +57,19 @@
 .maze-countdown strong{font:900 clamp(58px,14vmin,110px)/1 system-ui,sans-serif;font-variant-numeric:tabular-nums;-webkit-text-stroke:1px #44182a}
 @media(max-width:600px){.estate-result{padding:24px}.estate-result .modal-buttons{flex-direction:column}}
 @media(max-width:420px){.estate-result .result-extras div{grid-template-columns:1fr}}
+/* A phone on its side: little height, so the film takes it all and the buttons stand beside it. */
+@media(max-height:500px){
+.estate-result{max-height:calc(100dvh - 8px);padding:14px 18px}
+.estate-result .modal-title{font-size:22px;margin:6px 0}.estate-result .modal-lede{font-size:13px;line-height:1.35;margin:4px 0}
+.estate-result button{padding:10px 14px}
+.estate-result .result-extras{margin-top:8px}
+.estate-result .theatre-menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.estate-result .theatre-menu>*{padding:9px;font-size:13px}
+.estate-result .theatre-menu>#theatre-decline{margin-top:0}
+.estate-result.screening{width:fit-content;max-width:calc(100vw - 16px)}
+.estate-result .result-screening:has(.theatre-room){display:grid;grid-template-columns:auto 9.5rem;align-items:center;gap:12px}
+.estate-result .result-screening:has(.theatre-room) .modal-buttons{flex-direction:column}
+.estate-result .theatre-room{width:calc((100dvh - 92px)*16/14);margin:0}
+.estate-result .theatre-room.double{width:calc((100dvh - 132px)*2)}
+.estate-result .theatre-heading{margin-bottom:4px}
+.estate-result .theatre-sign{font-size:15px;padding:3px 12px 5px}
+}

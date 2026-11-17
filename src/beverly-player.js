@@ -11,6 +11,21 @@ export function autoRunsOnDrive(wasRunning,{storyStarted=false,tentDistance=Infi
  return wasRunning&&!storyStarted&&tentDistance>=AUTO_RUN.tentRadius;
 }
 
+// The touch stick, as the keys it stands for. x and y run from -1 to 1 across
+// the pad (y down, like the screen): push up to walk, sideways to turn.
+export const STICK=Object.freeze({walk:.3,turn:.35});
+export function stickKeys(x,y){
+ const keys=[];
+ if(y<-STICK.walk)keys.push('w');else if(y>STICK.walk)keys.push('s');
+ if(x<-STICK.turn)keys.push('a');else if(x>STICK.turn)keys.push('d');
+ return keys;
+}
+
+// How much further back and higher the follow camera sits on a picture taller
+// than it is wide (a phone held upright), where Christel would fill the frame.
+export const TALL_VIEW=Object.freeze({back:2.6,rise:1.0});
+export function tallness(aspect){return aspect>0?Math.min(1,Math.max(0,1-aspect)):0;}
+
 // The same runner, turn controls and follow-camera proportions as the boards.
 export function moveBeverlyPlayer(T,navigation,position,yaw,keys,dt,locked=false,autoRun=false){
  if(locked)return {position:position.clone(),yaw,moving:false};
@@ -40,8 +55,9 @@ export function createBeverlyPlayer(T,navigation,{runner=makeRunner(),reducedMot
   const forward=new T.Vector3(Math.sin(yaw),0,Math.cos(yaw));
   // Ease a little higher/back in the pool so the breaststroke is visible from
   // the usual follow view, instead of hiding both arms behind her hair.
-  const desired=position.clone().addScaledVector(forward,-2.5-.7*swimBlend);
-  desired.y=Math.max(position.y+2.2+.65*swimBlend,(navigation.surface(desired.x,desired.z)??position.y)+1.5);
+  const tall=tallness(camera.aspect);
+  const desired=position.clone().addScaledVector(forward,-2.5-.7*swimBlend-TALL_VIEW.back*tall);
+  desired.y=Math.max(position.y+2.2+.65*swimBlend+TALL_VIEW.rise*tall,(navigation.surface(desired.x,desired.z)??position.y)+1.5);
   const pivot=position.clone().add(new T.Vector3(0,1.35,0));
   const safe=navigation.clipCamera(pivot,desired);
   const target=focus?.clone()??position.clone().add(new T.Vector3(0,1.18+Math.tan(pitch)*4.7,0)).addScaledVector(forward,2.2-1.3*swimBlend);

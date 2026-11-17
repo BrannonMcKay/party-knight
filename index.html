@@ -14,12 +14,15 @@
  <button id="enter" disabled hidden>Enter the party</button><button id="quit" hidden>Return to title</button>
  <p class="keys"><kbd>W</kbd> <kbd>S</kbd> Move &nbsp; <kbd>A</kbd> <kbd>D</kbd> Turn &nbsp; <kbd>Shift</kbd> Run / walk<br>
  Drag to look · <kbd>Space</kbd> Next line · <kbd>E</kbd> Hold or release Stubby · <kbd>Esc</kbd> Pause</p>
+ <p class="keys touch-keys"><b>Left stick</b> Move and turn · <b>Drag the picture</b> Look around<br>
+ <b>Action</b> Next line, hold or release Stubby · <b>Run</b> Tap to run or walk</p>
+ <p id="rotate">↻ Turn your phone sideways for a wider view.</p>
  <div class="mix"><label><input id="music" type="checkbox" checked> Music</label><label><input id="sfx" type="checkbox" checked> Effects</label></div>
  <footer>Music by Mimesis · Painting by Misti Ogle</footer><p id="notice" role="status"></p></article>
 </section>
 <div id="hud" hidden><div><small>Party Knight</small><p id="objective"></p><p id="alert" role="status" hidden></p></div><button id="pause" aria-label="Pause game">Pause</button></div>
 <div id="lag-hint" role="status" hidden><span id="lag-text"></span><button id="lag-undo" hidden>Undo</button><button id="lag-dismiss">Got it</button></div>
-<nav id="touch" aria-label="Touch controls"><button data-key="a" aria-label="Turn left">↶</button><button data-key="w" aria-label="Forward">↑</button><button data-key="d" aria-label="Turn right">↷</button><button data-key="s" aria-label="Backward">↓</button><button data-key="shift">Run</button><button id="action">Action</button></nav>
+<nav id="touch" aria-label="Touch controls"><div id="stick" role="group" aria-label="Move and turn: push up to walk, sideways to turn"><i></i></div><div class="touch-buttons"><button id="pace">Run</button><button id="action">Action</button></div></nav>
 </main>
 <script type="module">
 try { const {bootPartyKnight}=await import('./src/party-knight.js');await bootPartyKnight(); }

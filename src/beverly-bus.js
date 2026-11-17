@@ -1,7 +1,7 @@
 import {Font} from '../vendor/FontLoader.js';
 import fontData from '../vendor/beverly-font.js';
 import {world,DRIVE,GATE_PROGRESS,PARTY_BUS,ESTATE_MOVEMENT} from './beverly-layout.js';
-export const BUS_DOOR={x:-1.32,z:2.65,width:1.18,threshold:1.2,delay:1,duration:1.1};
+export const BUS_DOOR={x:-1.32,z:2.65,width:1.18,threshold:1.2,delay:.4,duration:.8};
 
 // Local +Z is the nose and +Y is up: vehicle right is -X, driver left is +X.
 // Authored coach dimensions follow the supplied photographs.

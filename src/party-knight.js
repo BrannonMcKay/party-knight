@@ -1,6 +1,6 @@
 import * as T from '../vendor/three.module.js';
 import {createEstateScene} from './beverly-scene.js';
-import {moveBeverlyPlayer,autoRunsOnDrive} from './beverly-player.js';
+import {moveBeverlyPlayer,autoRunsOnDrive,stickKeys} from './beverly-player.js';
 import {ESTATE_MOVEMENT,world} from './beverly-layout.js';
 import {preloadBeverlyBus} from './beverly-preload.js';
 import {createMazeCountdown} from './beverly-countdown.js';
@@ -30,7 +30,9 @@ export async function bootPartyKnight(){
  const flatten=createBusFlatten(T,{player,navigation});
  let mode='title',position=navigation.spawn.clone(),yaw=0,pitch=0,elapsed=0,lookPointer=null,previousTime=0;
  // Automatic running up the drive (see AUTO_RUN); the touch button says what Shift does right now.
- let driveRun=true;const tent=churroTent.eater.getWorldPosition(new T.Vector3()),paceButton=document.querySelector('[data-key="shift"]');
+ let driveRun=true;const tent=churroTent.eater.getWorldPosition(new T.Vector3()),paceButton=$('pace'),actionButton=$('action');
+ // A touch screen has no keys to name in the hints.
+ const touch=matchMedia('(pointer:coarse)').matches,nextLine=touch?'Tap Next · next line':'Space · next line';
  function setMode(next){mode=next;document.body.dataset.mode=next;menu.hidden=next!=='title'&&next!=='paused';hud.hidden=next!=='playing';keys.clear();lookPointer=null;}
  function overview(){camera.fov=47;camera.position.set(...world(2150,725,55));camera.lookAt(...world(1150,590,5.3));camera.updateProjectionMatrix();}
  function render(){renderer.render(scene,camera);}
@@ -92,13 +94,25 @@ export async function bootPartyKnight(){
  canvas.onpointerdown=e=>{if(mode==='playing'){lookPointer=e.pointerId;canvas.setPointerCapture(e.pointerId);}};
  canvas.onlostpointercapture=()=>lookPointer=null;
  canvas.onpointermove=e=>{if(e.pointerId===lookPointer&&mode==='playing'&&!story.locked&&!escape.locked){yaw-=e.movementX*.004;pitch=T.MathUtils.clamp(pitch-e.movementY*.004,-.65,.65);}};
- for(const b of document.querySelectorAll('[data-key]')){b.onpointerdown=e=>{e.preventDefault();b.setPointerCapture(e.pointerId);keys.add(b.dataset.key);};b.onlostpointercapture=()=>keys.delete(b.dataset.key);}
+ // Touch: the stick stands for the movement keys, and Run is a tap that sticks (no finger to spare for holding it).
+ const stick=$('stick'),knob=stick.firstElementChild,steering=['w','s','a','d'];
+ function steer(e){
+  const r=stick.getBoundingClientRect(),half=r.width/2;let x=(e.clientX-r.left-half)/half,y=(e.clientY-r.top-half)/half;
+  const reach=Math.hypot(x,y);if(reach>1){x/=reach;y/=reach;}
+  knob.style.transform='translate('+x*half*.55+'px,'+y*half*.55+'px)';
+  const held=mode==='playing'?stickKeys(x,y):[];for(const k of steering)held.includes(k)?keys.add(k):keys.delete(k);
+ }
+ stick.onpointerdown=e=>{e.preventDefault();stick.setPointerCapture(e.pointerId);steer(e);};
+ stick.onpointermove=e=>{if(stick.hasPointerCapture(e.pointerId))steer(e);};
+ stick.onlostpointercapture=()=>{knob.style.transform='';for(const k of steering)keys.delete(k);};
+ paceButton.onpointerdown=e=>{e.preventDefault();if(mode==='playing')keys.has('shift')?keys.delete('shift'):keys.add('shift');};
  function tick(dt){
   elapsed+=dt;model.effects.update(dt);model.gardenWater.update(dt);model.patioFountain.update(dt);partyBus.update(dt);passengers.update(dt);churroTent.update(dt);performance.update(dt,camera);
   // Run over: the coach rolls on while the camera rises above flattened Christel.
   if(flatten.active){drivewayCameraman.update(camera);const over=flatten.update(dt,camera);speech.update(camera,{storySpeaker:null});if(over)finish('bus');return;}
   driveRun=autoRunsOnDrive(driveRun,{storyStarted:story.phase!=='first-ready',tentDistance:Math.hypot(position.x-tent.x,position.z-tent.z)});
-  const autoRun=driveRun||escape.active,pace=autoRun?'Walk':'Run';if(paceButton&&paceButton.textContent!==pace)paceButton.textContent=pace;
+  const autoRun=driveRun||escape.active,pace=keys.has('shift')!==autoRun?'Walk':'Run';if(paceButton.textContent!==pace)paceButton.textContent=pace;
+  const act=story.locked||escape.alternate.active?'Next':'Action';if(actionButton.textContent!==act)actionButton.textContent=act;
   const before=position,step=moveBeverlyPlayer(T,navigation,position,yaw,keys,dt,story.locked||escape.locked,autoRun);position=step.position;yaw=step.yaw;
   if(partyBus.state==='driving'&&partyBus.intersectsPlayer(before,position)){partyBus.registerHit();keys.clear();position=before;flatten.start({position:before,busQuaternion:partyBus.group.quaternion,camera});$('objective').textContent='Flattened by the party bus!';$('alert').hidden=true;speech.update(camera,{storySpeaker:null});return;}
   const locked=story.locked;story.update(dt,{playerPosition:position,active:true});if(locked!==story.locked)keys.clear();
@@ -123,9 +137,9 @@ export async function bootPartyKnight(){
   for(const cue of new Set(escape.consumeSounds()))playStoryCue(audio,cue);
   speech.update(camera,{storySpeaker:escape.speaker??story.caption?.actors??story.caption?.actor});
   speechAudio.updateToken(story.locked||escape.locked ? null : position,yaw);
-  $('objective').textContent=escape.alternate.active?(escape.alternate.speaker?'Space · next line':''):escape.alternate.unlocked?'Follow the pink exit through the pool maze, or find the second exit at the Mimesis stage.':escape.active?'Follow the pink exit through the pool maze.':story.locked?'Space · next line':story.marker==='second'?'Find Al in the dark wooden room.':story.marker==='third'?'Find Emily by the patio fountain.'+(story.invite==='ready'?' Or grab a churro first.':''):'Find the blue light at the foot of the terrace stairs.';
+  $('objective').textContent=escape.alternate.active?(escape.alternate.speaker?nextLine:''):escape.alternate.unlocked?'Follow the pink exit through the pool maze, or find the second exit at the Mimesis stage.':escape.active?'Follow the pink exit through the pool maze.':story.locked?nextLine:story.marker==='second'?'Find Al in the dark wooden room.':story.marker==='third'?'Find Emily by the patio fountain.'+(story.invite==='ready'?' Or grab a churro first.':''):'Find the blue light at the foot of the terrace stairs.';
   showCountdown(escape.countdownDigit);
-  const alert=stubby.held?'Stubby vision! '+Math.ceil(stubby.remaining)+'s':stubby.canPickup(position)?'Press E to pick up Stubby!':partyBus.state==='waiting'?'Party bus in '+Math.ceil(Math.max(0,partyBus.spec.delay-partyBus.elapsed))+'s':partyBus.state==='driving'?'Party bus approaching · keep to the side':'';
+  const alert=stubby.held?'Stubby vision! '+Math.ceil(stubby.remaining)+'s':stubby.canPickup(position)?(touch?'Tap Action to pick up Stubby!':'Press E to pick up Stubby!'):partyBus.state==='waiting'?'Party bus in '+Math.ceil(Math.max(0,partyBus.spec.delay-partyBus.elapsed))+'s':partyBus.state==='driving'?'Party bus approaching · keep to the side':'';
   $('alert').textContent=alert;$('alert').hidden=!alert||escape.alternate.active;
   if(escape.result)finish(escape.result);
  }
