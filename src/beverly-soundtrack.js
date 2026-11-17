@@ -5,7 +5,7 @@ import {renderRecordScratch,RECORD_SCRATCH} from './record-scratch.js';
 export const PARTY_KNIGHT_TRACK=Object.freeze({
  file:new URL('../assets/party-knight-2026.mp3',import.meta.url).href,
  name:'Party Knight',credit:'Mimesis · Party Knight',version:'2026 mix',
- source:'Party Knight 2026.mp3'
+ source:'Party Knight 2026_2d2.mp3'
 });
 
 const knightFalls = {
