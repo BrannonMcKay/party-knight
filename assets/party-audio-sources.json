@@ -1,0 +1,77 @@
+{
+  "party-ghost-boo.wav": {
+    "source": "https://freesound.org/people/unfa/sounds/187106/",
+    "title": "Scary \"Boo!\" / 02",
+    "creator": "unfa",
+    "license": "CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/",
+    "text": "Boo!",
+    "changes": "Kept the recorded consonant and pitch scoop, extended the vowel with pitch-synchronous overlap-add, and layered a wavering harmony and a fading echo"
+  },
+  "party-pan-buschemi.wav": {
+    "source": "Local Flite RMS synthetic male voice",
+    "text": "Steve Buschemi!",
+    "pronunciation": "Steve Boo Shemmy"
+  },
+  "party-emily-flying-squirrel.wav": {
+    "source": "https://doi.org/10.3390/ani14223323",
+    "title": "Supplementary Audio Clip S1, black flying squirrel (Aeromys tephromelas)",
+    "creator": "Sapphire Hampshire and Priscillia Miard, 2024",
+    "license": "CC BY 4.0, https://creativecommons.org/licenses/by/4.0/",
+    "changes": "One chirp from about 0.82 to 1.10 seconds, with softened high frequencies and gentle fades"
+  },
+  "party-alex-loon.wav": {
+    "source": "https://commons.wikimedia.org/wiki/File:Loons.ogg",
+    "title": "Common loon (Gavia immer)",
+    "creator": "U.S. Fish and Wildlife Service",
+    "license": "Public domain",
+    "changes": "Excerpt from 17.10 to 18.20 seconds, filtered, normalized, and faded"
+  },
+  "party-audience-aww.wav": {
+    "source": "Local Windows Microsoft Hazel and Zira speech synthesis",
+    "text": "Awwww!",
+    "description": "Seven staggered voices reacting in disappointment",
+    "renderScript": "tools/render-audience-aww.ps1"
+  },
+  "party-balcony-hey.wav": {
+    "source": "Local Windows Microsoft Zira Desktop speech synthesis",
+    "text": "Hay—ayyy!",
+    "renderScript": "tools/render-balcony-hey.ps1",
+    "description": "Generic excited female voice, two syllables with a higher second syllable; not an imitation of the actress"
+  },
+  "party-heaven.wav": {
+    "source": "https://www.youtube.com/watch?v=jBsOdep6YqI",
+    "title": "Correct and Incorrect sound effect - right or wrong",
+    "creator": "Sound4effects",
+    "sourceStartSeconds": 3.6,
+    "durationSeconds": 1.2,
+    "use": "Heaven / correct outcome"
+  },
+  "party-hell.wav": {
+    "source": "https://www.youtube.com/watch?v=jBsOdep6YqI",
+    "title": "Correct and Incorrect sound effect - right or wrong",
+    "creator": "Sound4effects",
+    "sourceStartSeconds": 7.23,
+    "durationSeconds": 1.27,
+    "use": "Hell / wrong outcome"
+  },
+  "party-audience-cheer.wav": {
+    "source": "Local Windows Microsoft Hazel and Zira speech synthesis over synthesised applause",
+    "text": "Yay! Woo! Yeah! Bravo!",
+    "description": "Nine staggered cheering voices over about five seconds of clapping from seventy synthetic clappers",
+    "renderScript": "tools/render-audience-cheer.ps1 (applause: tools/render-applause.py)"
+  },
+  "party-alex-loon-2.wav": {
+    "source": "https://commons.wikimedia.org/wiki/File:Loons.ogg",
+    "title": "Common loon (Gavia immer)",
+    "creator": "U.S. Fish and Wildlife Service",
+    "license": "Public domain",
+    "changes": "Excerpt from 12.62 to 13.65 seconds (the two-step yodel, without its tremolo opening), lowered two semitones, filtered, normalized, and faded"
+  },
+  "party-alex-loon-3.wav": {
+    "source": "https://commons.wikimedia.org/wiki/File:Loons.ogg",
+    "title": "Common loon (Gavia immer)",
+    "creator": "U.S. Fish and Wildlife Service",
+    "license": "Public domain",
+    "changes": "Excerpt from 22.12 to 23.10 seconds (the held wail, without its tremolo opening), lowered two semitones, filtered, normalized, and faded"
+  }
+}

@@ -1,0 +1,59 @@
+.estate-result{width:min(620px,calc(100vw - 32px));max-height:92dvh;overflow:auto;padding:38px;background:#25232e;color:#f1ece2;border:1px solid #494550;border-radius:12px;box-shadow:0 24px 100px #0008}
+.estate-result::backdrop{background:#17141dbb;backdrop-filter:blur(5px)}
+.estate-result .modal-eyebrow{font-size:10px;letter-spacing:.18em;color:#dc9fae}
+.estate-result .modal-title{font-size:clamp(28px,4vw,40px);text-transform:none;letter-spacing:-.03em;line-height:1.1;color:#f1ece2;margin:16px 0}
+.estate-result .modal-lede{font-size:16px;line-height:1.6;color:#d6cfdc}
+.estate-result .result-note{font-size:12px;color:#a9a5b4}
+.estate-result .modal-buttons{display:flex;gap:12px}.estate-result button{padding:15px 19px;font-size:14px;flex:1}
+.estate-result .primary{background:#d4ed98;color:#25232e;border:0}.estate-result .secondary{background:transparent;border-color:#71687a}
+.estate-result .result-extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:20px 0 0}
+.estate-result .result-extras>*{padding:10px;font-size:14px;text-align:center;text-decoration:none;background:transparent;border:1px solid #8f7f96;border-radius:.5rem;color:#f1ece2;cursor:pointer}
+.estate-result .result-extras>*:hover{border-color:#ffe9c2}
+.estate-result .result-extras>[disabled]{border-color:#58515e;color:#a79daa;cursor:default}
+.estate-result .result-extras>*:last-child:nth-child(odd){grid-column:1/-1}
+.estate-result.screening{width:min(960px,calc(100vw - 32px))}
+.estate-result.screening>:not(.result-screening){display:none}
+.estate-result .result-pair{display:grid;gap:12px;margin:0 0 18px}
+.estate-result .result-video,.estate-result .result-stage{position:relative;aspect-ratio:16/9;max-height:calc(92dvh - 170px);width:100%;margin:0 auto;background:#000;border-radius:8px;overflow:hidden}
+.estate-result.reenacting{width:min(1500px,calc(100vw - 32px));padding:24px}
+.estate-result.reenacting .result-pair{grid-template-columns:repeat(2,minmax(0,1fr));align-items:center}
+.estate-result .wrath-canvas{display:block;width:100%;height:100%}
+.estate-result .wrath-card{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:.1em;background:#000;color:#f2efe8;font:500 clamp(14px,2.2vw,30px)/1.25 Georgia,serif;letter-spacing:.12em;font-variant:small-caps;text-align:center}
+.estate-result .wrath-card strong{color:#d3141c;font:700 2.1em/1 Georgia,serif;letter-spacing:.06em;text-transform:uppercase;font-variant:normal}
+.estate-result .wrath-line{position:absolute;inset:11% 4% auto;margin:0;padding:.3em .7em;border-radius:.5em;background:#fffdf6e8;color:#1d1a22;font:700 clamp(12px,1.5vw,20px)/1.25 system-ui,sans-serif;text-align:center}
+.estate-result .wrath-line[data-speaker="christel"]{color:#a3123f}
+.estate-result .wrath-credit{position:absolute;inset:auto 4% 7%;margin:0;color:#f2efe8;font:500 clamp(14px,2vw,26px)/1.2 Georgia,serif;letter-spacing:.12em;font-variant:small-caps;text-align:center;text-shadow:0 2px 6px #000c,0 0 14px #0009}
+.estate-result .result-stage [hidden]{display:none}
+.estate-result .wrath-tag{position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:99px;background:#15121cc4;color:#f1ece2;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+@media(max-width:820px){.estate-result.reenacting .result-pair{grid-template-columns:1fr}}
+.estate-result .result-video iframe{display:block;width:100%;height:100%;border:0}
+.estate-result .result-screening a{flex:1;padding:15px 19px;font-size:14px;text-align:center;text-decoration:none;color:inherit;border:1px solid #71687a;border-radius:.5rem}
+.estate-result .result-screening a:hover{border-color:#ffe9c2}
+/* Al Pacino's basement theatre (Wrath of Stickman Parts II and III). */
+.estate-result.theatre{background:#15111a;padding:18px 24px 22px}
+.estate-result .result-pair[hidden]{display:none}
+.estate-result .theatre-room{width:min(100%,calc((92dvh - 190px)*16/14));margin:0 auto 14px}
+.estate-result .theatre-sign{margin:0 auto 8px;width:fit-content;max-width:100%;padding:5px 18px 7px;background:#b99564;color:#1d1410;border-radius:2px;box-shadow:0 3px 0 #0006,inset 0 0 18px #6b4a2466;transform:rotate(-1.6deg);font:700 clamp(15px,2.6vw,27px)/1.15 "Comic Sans MS","Segoe Print","Bradley Hand","Chalkboard SE",cursive;letter-spacing:.02em;text-align:center;white-space:nowrap}
+.estate-result .theatre-sign span{display:inline-block}
+.estate-result .theatre-sign .word{white-space:nowrap}
+.estate-result .theatre-now{margin:26px auto 0;font-size:clamp(13px,2vw,17px);line-height:1.55;white-space:normal;transform:rotate(-1deg)}
+.estate-result .theatre-bill{margin-top:12px}
+.estate-result .theatre-room .result-video{max-height:none;border:6px solid #e8e3d6;border-radius:3px;box-shadow:0 0 46px #b9cfff3d}
+.estate-result .theatre-menu{grid-template-columns:1fr}
+.estate-result .theatre-menu>*{padding:14px;font-size:15px}
+.estate-result .theatre-menu>#theatre-decline{margin-top:10px;border-style:dashed}
+.estate-result .theatre-heading{display:flex;justify-content:center;align-items:center;gap:clamp(8px,2vw,22px);margin:0 auto 8px}
+.estate-result .theatre-heading .theatre-sign{margin:0}
+.estate-result .theatre-sticker{flex:none;display:grid;place-items:center;width:clamp(58px,7.5vw,96px);aspect-ratio:1;border-radius:50%;background:#e23b2e;color:#fff6d8;border:3px dashed #fff6d8;outline:4px solid #e23b2e;box-shadow:0 3px 0 #0007;transform:rotate(11deg);font:800 clamp(10px,1.35vw,17px)/1.05 "Comic Sans MS","Segoe Print","Bradley Hand","Chalkboard SE",cursive;text-transform:uppercase;text-align:center;letter-spacing:.03em;padding:6px}
+.estate-result .theatre-room.double{width:min(100%,calc((92dvh - 210px)*2))}
+.estate-result .theatre-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.estate-result .theatre-features .result-stage{max-height:none;border-radius:3px}
+.estate-result .theatre-room.double .theatre-audience{aspect-ratio:32/7}
+.estate-result .theatre-room .theatre-audience{aspect-ratio:16/5;max-height:none;background:#0b0810;border-radius:0 0 8px 8px}
+.estate-result .victory-portrait{margin:0 0 24px}.estate-result img{width:100%;max-height:36vh;object-fit:contain}.estate-result figcaption{font-size:10px;color:#d4ed98;letter-spacing:.15em;text-align:center;margin-top:8px}
+.maze-countdown{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:15;text-align:center;color:#fff1da;text-shadow:0 2px 5px #180d20,0 0 16px #180d20}
+.maze-countdown[hidden],body[data-mode]:not([data-mode="playing"]) .maze-countdown{display:none}
+.maze-countdown span{position:absolute;bottom:calc(50% + clamp(53px,11vmin,99px));font:800 clamp(16px,3.3vmin,30px)/1.1 system-ui,sans-serif;letter-spacing:.075em}
+.maze-countdown strong{font:900 clamp(58px,14vmin,110px)/1 system-ui,sans-serif;font-variant-numeric:tabular-nums;-webkit-text-stroke:1px #44182a}
+@media(max-width:600px){.estate-result{padding:24px}.estate-result .modal-buttons{flex-direction:column}}
+@media(max-width:420px){.estate-result .result-extras div{grid-template-columns:1fr}}

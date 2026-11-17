@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Party Knight · Mimesis</title><link rel="icon" href="./favicon.svg">
+<link rel="stylesheet" href="./src/speech.css"><link rel="stylesheet" href="./src/beverly-result.css"><link rel="stylesheet" href="./src/party-knight.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script></head><body data-mode="title">
+<main><canvas id="estate" tabindex="0" aria-label="Play as Christel at the Beverly Estate"></canvas>
+<section id="menu" aria-labelledby="title">
+ <article><small>Mimesis presents</small><h1 id="title">Party Knight</h1>
+ <p id="invitation">Watch Billy Knight, (allegedly) coming to theatres everywhere on January 8, 2027! For now, relive the crew's total failure to shoot a party scene at one of Hollywood's most iconic mansions!</p>
+ <div id="loading">
+  <div class="loading-caption" role="status"><span id="loading-stage">Loading game files…</span><span id="loading-step">1 of 7</span></div>
+  <progress id="loading-progress" max="7" aria-label="Game loading progress"></progress>
+ </div>
+ <button id="enter" disabled hidden>Enter the party</button><button id="quit" hidden>Return to title</button>
+ <p class="keys"><kbd>W</kbd> <kbd>S</kbd> Move &nbsp; <kbd>A</kbd> <kbd>D</kbd> Turn &nbsp; <kbd>Shift</kbd> Run / walk<br>
+ Drag to look · <kbd>Space</kbd> Next line · <kbd>E</kbd> Hold or release Stubby · <kbd>Esc</kbd> Pause</p>
+ <div class="mix"><label><input id="music" type="checkbox" checked> Music</label><label><input id="sfx" type="checkbox" checked> Effects</label></div>
+ <footer>Music by Mimesis · Painting by Misti Ogle</footer><p id="notice" role="status"></p></article>
+</section>
+<div id="hud" hidden><div><small>Party Knight</small><p id="objective"></p><p id="alert" role="status" hidden></p></div><button id="pause" aria-label="Pause game">Pause</button></div>
+<div id="lag-hint" role="status" hidden><span id="lag-text"></span><button id="lag-undo" hidden>Undo</button><button id="lag-dismiss">Got it</button></div>
+<nav id="touch" aria-label="Touch controls"><button data-key="a" aria-label="Turn left">↶</button><button data-key="w" aria-label="Forward">↑</button><button data-key="d" aria-label="Turn right">↷</button><button data-key="s" aria-label="Backward">↓</button><button data-key="shift">Run</button><button id="action">Action</button></nav>
+</main>
+<script type="module">
+try { const {bootPartyKnight}=await import('./src/party-knight.js');await bootPartyKnight(); }
+catch(error){console.error(error);document.querySelector('#loading').hidden=true;document.querySelector('#notice').textContent='The estate could not load. Check that WebGL is available in your browser, then try again.';const b=document.querySelector('#enter');b.hidden=false;b.disabled=false;b.textContent='Reload game';b.onclick=()=>location.reload();}
+</script></body></html>
