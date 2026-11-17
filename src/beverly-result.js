@@ -37,6 +37,12 @@ const crudeSign = text => {
 
 // `media.pause()` / `media.resume()` silence the game's own soundtrack while a
 // video is on screen; `media.cheer()` plays one stickman vocalization.
+// A phone: a touch screen whose short side is under 600 CSS pixels.
+export function isPhoneScreen(width, height, coarse) {
+  return !!coarse && Math.min(width, height) < 600;
+}
+const onPhone = () => isPhoneScreen(globalThis.innerWidth, globalThis.innerHeight, globalThis.matchMedia?.('(pointer:coarse)').matches);
+
 export function createBeverlyResult({retry, leave, standalone = false, media = null}) {
   const dialog = document.createElement('dialog');
   dialog.id = 'estate-result';
@@ -60,13 +66,15 @@ export function createBeverlyResult({retry, leave, standalone = false, media = n
   }
   function screen(video, {christel = false} = {}) {
     if (!video || screening) return;
+    // A phone has no room for two pictures: the film plays alone over the audience.
+    const reenacted = !!video.reenacted && !(video.theatre && onPhone());
     media?.pause();
     screening = document.createElement('section');
     screening.className = 'result-screening';
     screening.setAttribute('aria-label', video.title);
     const frame = `<div class="result-video"><iframe src="${embedUrl(video.id)}" title="${video.title}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
     // A double feature shows the film and its reenactment side by side above the seats.
-    const double = !!(video.theatre && video.reenacted);
+    const double = !!(video.theatre && reenacted);
     const theatre = video.theatre ? `<div class="theatre-room${double ? ' double' : ''}">
         <div class="theatre-heading">
           <p class="theatre-sign" aria-label="${THEATRE_SIGN}">${crudeSign(THEATRE_SIGN)}</p>
@@ -76,7 +84,7 @@ export function createBeverlyResult({retry, leave, standalone = false, media = n
         <div class="result-stage theatre-audience"></div>
       </div>` : '';
     screening.innerHTML = theatre + `
-      <div class="result-pair"${theatre ? ' hidden' : ''}>${theatre ? '' : frame + (video.reenacted || video.cast ? '<div class="result-stage"></div>' : '')}</div>
+      <div class="result-pair"${theatre ? ' hidden' : ''}>${theatre ? '' : frame + (reenacted || video.cast ? '<div class="result-stage"></div>' : '')}</div>
       <div class="modal-buttons">
         <button type="button" id="screening-close" class="primary">${menuDone ? 'Back to the film menu' : 'Back to the results'}</button>
         <a class="secondary" href="${watchUrl(video.id)}" target="_blank" rel="noopener">Open on YouTube</a>
@@ -93,7 +101,7 @@ export function createBeverlyResult({retry, leave, standalone = false, media = n
       }, 500);
     }
     dialog.classList.add('screening');
-    dialog.classList.toggle('reenacting', !!(video.reenacted || video.cast));
+    dialog.classList.toggle('reenacting', !!(reenacted || video.cast));
     dialog.classList.toggle('theatre', !!video.theatre);
     // One clock, read from the player, drives the audience and the reenactment.
     let clock = null;
@@ -102,7 +110,7 @@ export function createBeverlyResult({retry, leave, standalone = false, media = n
     if (video.theatre) {
       // Stickmen, Al Pacino and Alex watch from the seats and cheer every attack.
       try {
-        audience = createTheatreStage(screening.querySelector('.theatre-audience'), {attacks: THEATRE_ATTACKS[video.theatre], tiny: double, christel, credits: THEATRE_CREDITS[video.theatre], onCheer: () => media?.cheer?.()});
+        audience = createTheatreStage(screening.querySelector('.theatre-audience'), {attacks: THEATRE_ATTACKS[video.theatre], tiny: !!video.reenacted, christel, credits: THEATRE_CREDITS[video.theatre], onCheer: () => media?.cheer?.()});
         audience.follow(videoClock());
         if (!double) reenactment = {clock, stage: audience};
       } catch (error) {
@@ -123,7 +131,7 @@ export function createBeverlyResult({retry, leave, standalone = false, media = n
         dialog.classList.remove('reenacting');
       }
     }
-    if (video.reenacted) {
+    if (reenacted) {
       // Christel and a stickman act the film out beside it, on the video's clock.
       try {
         const stage = createWrathStage(screening.querySelector('.result-stage:not(.theatre-audience)'));
@@ -199,7 +207,7 @@ export function createBeverlyResult({retry, leave, standalone = false, media = n
         <h2 class="modal-title" id="estate-result-title">What are we watching?</h2>
         <p class="modal-lede">Bring your churro. The seats are taken, so you'll have to stand at the back.</p>
         <div class="result-extras theatre-menu">
-          ${[1, 2, 3].map(part => `<button type="button" data-stickman="${part}">Watch ${RESULT_LINKS.stickman[part].title}${part === 1 ? ' (double feature)' : ''}</button>`).join('')}
+          ${[1, 2, 3].map(part => `<button type="button" data-stickman="${part}">Watch ${RESULT_LINKS.stickman[part].title}${part === 1 && !onPhone() ? ' (double feature)' : ''}</button>`).join('')}
           <button type="button" id="theatre-decline">No thanks! I need to go find Emily!</button>
         </div>`;
       for (const button of dialog.querySelectorAll('[data-stickman]')) button.addEventListener('click', () => screen(RESULT_LINKS.stickman[+button.dataset.stickman], {christel: true}));

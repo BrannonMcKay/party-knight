@@ -60,6 +60,7 @@
 /* A phone on its side: little height, so the film takes it all and the buttons stand beside it. */
 @media(max-height:500px){
 .estate-result{max-height:calc(100dvh - 8px);padding:14px 18px}
+.estate-result.screening{padding:8px 12px}
 .estate-result .modal-title{font-size:22px;margin:6px 0}.estate-result .modal-lede{font-size:13px;line-height:1.35;margin:4px 0}
 .estate-result button{padding:10px 14px}
 .estate-result .result-extras{margin-top:8px}
@@ -68,8 +69,17 @@
 .estate-result.screening{width:fit-content;max-width:calc(100vw - 16px)}
 .estate-result .result-screening:has(.theatre-room){display:grid;grid-template-columns:auto 9.5rem;align-items:center;gap:12px}
 .estate-result .result-screening:has(.theatre-room) .modal-buttons{flex-direction:column}
-.estate-result .theatre-room{width:calc((100dvh - 92px)*16/14);margin:0}
+.estate-result .theatre-room{width:min(calc(100vw - 13rem),calc((100dvh - 26px)*16/12.6));margin:0}
+.estate-result .theatre-room:not(.double) .theatre-heading{display:none}
+.estate-result .theatre-room:not(.double) .theatre-audience{aspect-ratio:16/3.6}
 .estate-result .theatre-room.double{width:calc((100dvh - 132px)*2)}
 .estate-result .theatre-heading{margin-bottom:4px}
 .estate-result .theatre-sign{font-size:15px;padding:3px 12px 5px}
+}
+
+/* A phone held upright: the film runs edge to edge. */
+@media(pointer:coarse) and (max-width:600px){
+.estate-result{width:calc(100vw - 12px);padding:22px 18px}
+.estate-result.screening{width:calc(100vw - 6px);max-width:none;padding:10px 6px}
+.estate-result .theatre-room{width:100%}
 }

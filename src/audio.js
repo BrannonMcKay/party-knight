@@ -29,6 +29,8 @@ export class GameAudio{
     if(!this.context){
       const AudioContext=globalThis.AudioContext||globalThis.webkitAudioContext;
       if(!AudioContext)throw new Error('Audio is unavailable in this browser.');
+      // iPhone: play as media, so the ring/silent switch does not mute the game (Safari 16.4+).
+      try{if(globalThis.navigator?.audioSession)globalThis.navigator.audioSession.type='playback';}catch{}
       this.context=new AudioContext();const c=this.context;
       this.master=c.createDynamicsCompressor();this.master.threshold.value=-10;this.master.knee.value=10;this.master.ratio.value=6;
       this.master.connect(c.destination);this.buses={effects:c.createGain(),music:c.createGain()};
