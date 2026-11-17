@@ -83,11 +83,12 @@ export class PartyKnightAudio extends GameAudio {
   }
 
   onMusicEnded() {
-    const next = NEXT_TRACK.get(this.track);
+    // Once the escape has begun, Party Knight hands over to Dream Light, not Knight Falls.
+    const next = this.escapeBegun && this.track === PARTY_KNIGHT_TRACK ? dreamLight : NEXT_TRACK.get(this.track);
     if (next && this.view !== 'home') return this.switchTrack(next);
   }
 
-  // The party song is ripped off the turntable: a needle-drag scratch as it
+  // Knight Falls is ripped off the turntable: a needle-drag scratch as it
   // stops, then Dream Light starts once the scratch is over.
   playRecordScratch() {
     const c = this.context;
@@ -103,6 +104,9 @@ export class PartyKnightAudio extends GameAudio {
   startEscapeMusic() {
     // Dream Light may already be playing because Knight Falls ran out: leave it be.
     if (this.track === dreamLight) return Promise.resolve();
+    // Party Knight is never cut short: it plays out, and Dream Light follows it.
+    this.escapeBegun = true;
+    if (this.track === PARTY_KNIGHT_TRACK) return Promise.resolve();
     if (this.playRecordScratch()) {
       this.scratchUntil = this.context.currentTime + RECORD_SCRATCH.seconds;
       globalThis.setTimeout?.(() => this.syncMusic(), RECORD_SCRATCH.seconds * 1000 + 20);
@@ -119,6 +123,7 @@ export class PartyKnightAudio extends GameAudio {
 
   startRound() {
     this.scratchUntil = 0;
+    this.escapeBegun = false;
     super.startRound();
     if (this.track !== PARTY_KNIGHT_TRACK) this.musicBuffer = this.trackBuffers.get(PARTY_KNIGHT_TRACK) ?? null;
     this.track = PARTY_KNIGHT_TRACK;
